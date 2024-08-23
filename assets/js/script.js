@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
  * and after the user's answer has been processed
  */
 function runGame(gameType) {
+
   // Creates two random numbers between 1 and 25
   let num1 = Math.floor(Math.random() * 25) + 1;
   let num2 = Math.floor(Math.random() * 25) + 1;
@@ -31,7 +32,10 @@ function runGame(gameType) {
     displayAdditionQuestion(num1, num2);
   } else if (gameType === "multiply") {
     displayMultiplyQuestion(num1, num2);
-  } else {
+  } else if (gameType === "subtract") {
+    displaySubtractQuestion(num1, num2);
+  }
+  else {
     alert(`Unknown game type: ${gameType}`);
     throw `Unknown game type: ${gameType}. Aborting!`;
   }
@@ -69,10 +73,13 @@ function calculateCorrectAnswer() {
   let operator = document.getElementById("operator").innerText;
 
   if (operator === "+") {
-    return [operand1 + operand2, "addition"];
+      return [operand1 + operand2, "addition"];
   } else if (operator === "x") {
-    return [operand1 * operand2, "multiply"];
-  } else {
+      return [operand1 * operand2, "multiply"];
+  } else if (operator === "-") {
+      return [operand1 - operand2, "subtract"];
+  }
+  else {
     alert(`Unimplemented operator ${operator}`);
     throw `Unimplemented operator ${operator}. Aborting`;
   }
@@ -93,20 +100,31 @@ function incrementScore() {
  * Gets the current tally of incorrect answers fromt the DOM and increments it by 1
  */
 function incrementWrongAnswer() {
+
   let oldScore = parseInt(document.getElementById("incorrect").innerText);
   document.getElementById("incorrect").innerText = ++oldScore;
+
 }
 
 function displayAdditionQuestion(operand1, operand2) {
   document.getElementById("operand1").textContent = operand1;
   document.getElementById("operand2").textContent = operand2;
   document.getElementById("operator").textContent = "+";
+
 }
 
-function displaySubtractQuestion() {}
+function displaySubtractQuestion(operand1, operand2) {
+
+    document.getElementById("operand1").textContent = operand1 > operand2 ? operand1 : operand2;
+    document.getElementById("operand2").textContent = operand1 > operand2 ? operand2 : operand1;
+    document.getElementById("operator").textContent = "-";
+
+}
 
 function displayMultiplyQuestion(operand1, operand2) {
+
   document.getElementById("operand1").textContent = operand1;
   document.getElementById("operand2").textContent = operand2;
   document.getElementById("operator").textContent = "x";
+
 }
